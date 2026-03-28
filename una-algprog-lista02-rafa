@@ -1,0 +1,165 @@
+import java.util.Scanner;
+
+public class ListaExerciciosJava {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int opcao;
+
+        do {
+            System.out.println("\n================ MENU DE EXERCICIOS ================");
+            System.out.println("1 - Imprimir desenho");
+            System.out.println("    Exibe na tela o rosto usando caracteres.");
+            System.out.println("2 - Calcular distancia entre dois pontos da Terra");
+            System.out.println("    Usa latitude e longitude para calcular a distancia.");
+            System.out.println("3 - Contar letras, espacos, numeros e outros caracteres");
+            System.out.println("    Analisa uma frase digitada pelo usuario.");
+            System.out.println("4 - Questao de multipla escolha sobre IHC");
+            System.out.println("    Usa switch e do-while com no maximo 3 tentativas.");
+            System.out.println("0 - Sair");
+            System.out.print("Escolha uma opcao: ");
+            opcao = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (opcao) {
+                case 1:
+                    exercicio1();
+                    break;
+                case 2:
+                    exercicio2();
+                    break;
+                case 3:
+                    exercicio3(scanner);
+                    break;
+                case 4:
+                    exercicio4(scanner);
+                    break;
+                case 0:
+                    System.out.println("Encerrando o programa...");
+                    break;
+                default:
+                    System.out.println("Opcao invalida. Tente novamente.");
+            }
+
+        } while (opcao != 0);
+
+        scanner.close();
+    }
+
+    public static void exercicio1() {
+        System.out.println("\nExercicio 1 - Desenho:\n");
+        System.out.println(" +\"\"\"\"\"+");
+        System.out.println("[| o o |]");
+        System.out.println(" |  ^  |");
+        System.out.println(" | '-' |");
+        System.out.println(" +-----+");
+    }
+
+    public static void exercicio2() {
+        System.out.println("\nExercicio 2 - Distancia entre dois pontos da superficie da Terra:\n");
+
+        double x1 = 25.0;
+        double y1 = 35.0;
+        double x2 = 35.5;
+        double y2 = 25.5;
+        double raioTerra = 6371.01;
+
+        double x1Rad = Math.toRadians(x1);
+        double y1Rad = Math.toRadians(y1);
+        double x2Rad = Math.toRadians(x2);
+        double y2Rad = Math.toRadians(y2);
+
+        double distancia = raioTerra * Math.acos(
+                Math.sin(x1Rad) * Math.sin(x2Rad) +
+                        Math.cos(x1Rad) * Math.cos(x2Rad) * Math.cos(y1Rad - y2Rad)
+        );
+
+        System.out.println("Latitude da coordenada 1: " + x1);
+        System.out.println("Longitude da coordenada 1: " + y1);
+        System.out.println("Latitude da coordenada 2: " + x2);
+        System.out.println("Longitude da coordenada 2: " + y2);
+        System.out.println("A distancia entre esses pontos e: " + distancia + " km");
+    }
+
+    public static void exercicio3(Scanner scanner) {
+        System.out.println("\nExercicio 3 - Contagem de caracteres:");
+        System.out.print("Digite uma frase: ");
+        String texto = scanner.nextLine();
+
+        int letras = 0;
+        int espacos = 0;
+        int numeros = 0;
+        int outros = 0;
+
+        for (int i = 0; i < texto.length(); i++) {
+            char caractere = texto.charAt(i);
+
+            if (Character.isLetter(caractere)) {
+                letras++;
+            } else if (Character.isDigit(caractere)) {
+                numeros++;
+            } else if (Character.isWhitespace(caractere)) {
+                espacos++;
+            } else {
+                outros++;
+            }
+        }
+
+        System.out.println("\nResultado da analise:");
+        System.out.println("Letras: " + letras);
+        System.out.println("Espacos: " + espacos);
+        System.out.println("Numeros: " + numeros);
+        System.out.println("Outros caracteres: " + outros);
+    }
+
+    public static void exercicio4(Scanner scanner) {
+        System.out.println("\nExercicio 4 - Questao de multipla escolha sobre IHC");
+
+        int tentativas = 0;
+        char resposta;
+
+        do {
+            tentativas++;
+
+            System.out.println("\nTentativa " + tentativas + ":");
+            System.out.println("Segundo as Heuristicas de Nielsen, qual alternativa representa a");
+            System.out.println("heuristica 'Visibilidade do status do sistema'?");
+            System.out.println("a) O sistema deve usar cores bonitas e fontes modernas.");
+            System.out.println("b) O sistema deve sempre informar ao usuario o que esta acontecendo.");
+            System.out.println("c) O sistema deve impedir totalmente qualquer erro do usuario.");
+            System.out.println("d) O sistema deve funcionar apenas com internet.");
+            System.out.println("e) O sistema deve esconder mensagens para deixar a tela limpa.");
+            System.out.print("Digite a alternativa escolhida: ");
+
+            resposta = scanner.nextLine().toLowerCase().charAt(0);
+
+            switch (resposta) {
+                case 'b':
+                    System.out.println("Resposta correta.");
+                    System.out.println("Voce acertou na tentativa " + tentativas + ".");
+                    break;
+
+                case 'a':
+                case 'c':
+                case 'd':
+                case 'e':
+                    if (tentativas < 3) {
+                        System.out.println("Resposta incorreta.");
+                        System.out.println("Tente novamente.");
+                    } else {
+                        System.out.println("Resposta incorreta nas 3 tentativas.");
+                    }
+                    break;
+
+                default:
+                    if (tentativas < 3) {
+                        System.out.println("Opcao invalida. Conta como tentativa.");
+                    } else {
+                        System.out.println("Resposta incorreta nas 3 tentativas.");
+                    }
+                    break;
+            }
+
+        } while (resposta != 'b' && tentativas < 3);
+    }
+}
